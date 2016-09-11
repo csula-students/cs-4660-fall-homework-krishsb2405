@@ -1,11 +1,22 @@
 # CS-4660 Artificial Intelligence.
 
+<<<<<<< HEAD
 This course is the introduction to Artificial Intelligence (AI).
 
 In this class, we will learn a few approaches of solving general problems
 by utilizing Graph as data structure and implementing searching algorithms like
 BFS(Bread-First Search), DFS(Depth-First search) and various other search algorithm
 to find out the best action(s) for the problem.
+=======
+[![Build Status](https://travis-ci.org/csula/cs4660-fall-2016.svg?branch=master)](https://travis-ci.org/csula/cs4660-fall-2016)
+
+Welcome to CS-4660 -- the introduction to Artificial Intelligence (AI).
+
+We will learn a couple approaches of solving general problems by utilizing Graph
+as data structure and implementing searching algorithms like BFS(Bread-First Search),
+DFS(Depth-First search) and some other search algorithm to find out the best
+action(s) for the problem.
+>>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
 
 More specifically, we will be implementing our own Graph data structure
 and then using this data structure to implement BFS, DFS, A-star searching algorithm
@@ -13,9 +24,15 @@ and as well as other searching algorithms.
 
 Why Graph?
 
+<<<<<<< HEAD
 Graph can be used to solve various general problems such as path finding or
 some advanced problem solving (e.g. being able to play games like chess). In other
 word, graph is quite useful for solving problems!
+=======
+Graph can be used to solve general problems such as path finding or
+some advanced problem solving (e.g. being able to play games like chess). In other
+word, graph is useful for solving problems!
+>>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
 
 By the end of class, you should be able to apply our Graph class to solve problems!
 
@@ -31,12 +48,20 @@ programming environment.
 Or if you wish to use programming IDE, I recommend using
 [IntelliJ](https://www.jetbrains.com/idea/)!
 
+<<<<<<< HEAD
 Last but not lease, we will be going over the examples in class with terminal mostly,
+=======
+Last but not lease, we will be going over the examples in class with terminal,
+>>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
 please be familiar with using command line interface such as git.
 
 ## Get Started
 
+<<<<<<< HEAD
 This Java repository uses Gradle the depednency management tool. Thus, you can
+=======
+This Java repository uses Gradle the dependency management tool. Thus, you can
+>>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
 build the project by `gradle clean build`
 
 ## Announcements
