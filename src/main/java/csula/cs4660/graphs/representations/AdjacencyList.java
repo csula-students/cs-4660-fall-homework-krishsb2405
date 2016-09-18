@@ -172,8 +172,9 @@ public class AdjacencyList implements Representation {
     public boolean addEdge(Edge x) {
     	Node from = x.getFrom();
     	Node to = x.getTo();
-    	Collection<Edge> edges = adjacencyList.get(from);
     	boolean present = false;
+    	Collection<Edge> edges = adjacencyList.get(from);
+    	
     	for(Edge edge : edges)
     	{
     		if(edge.getFrom().equals(from) && edge.getTo().equals(to))
@@ -188,7 +189,7 @@ public class AdjacencyList implements Representation {
     		return true;
     	}    
     }
-    //hi
+
 
     @Override
     public boolean removeEdge(Edge x) {

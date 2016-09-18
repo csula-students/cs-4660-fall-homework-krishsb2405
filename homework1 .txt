@@ -1,0 +1,79 @@
+1. Explain with the runtime analysis on each method you have implemented in each of the representation using Big-O notation
+
+1)  Adjacency List
+-	Adjacent :-
+	Running time is :- O(|V|+|E|) 
+	Explanation :- The adjacent function of adjacency list takes O(|V|+|E|) time because it first iterates in the nodes and then iterates through the edges to see whether the edges have a link to each other to find out whether they are adjacent or not.
+-	Neighbors :-
+	Running time is :- O(|E|)
+	Explanation :- The neighbors function of adjacency list takes O(|E|) time because it iterates through edges to get the neighbor nodes of that node x and put it in the Collection.
+-	Add node :-
+	Running time is :- O(1)
+	Explanation :- As the adjacency list is a hash map it takes O(1) time  to add a new node.
+-	Remove node :-
+	Running time is :- O(|V|+|E|)
+	Explanation :- The remove node function of adjacency list takes O(|V|+|E|) time because it first iterates in the nodes and then iterates through the edges to remove each edge if its fromNode or toNode is equal to the Node x. Can be more efficient but I could implement this logic.
+-	Add edge :-
+	Running time is :- O(|E|)
+	Explanation :- The add edge function of adjacency list takes O(|E|) time because it iterates through all of the edges of edge x's node to check whether it already exists or not. But for adding an edge it will take constant time.
+-	Remove edge :-
+	Running time is :- O(|E|)
+	Explanation :- The remove edge function of adjacency list takes O(|E|) time to check whether the particular edge already exists or not.
+
+2) Adjacency Matrix
+-	Adjacent :-
+	Running time is :- O(1) 
+	Explanation :- The adjacent function of adjacency matrix representation takes O(1) time because it has to simply check in the matrix whether both of the nodes have the value not equal to 0 or not.
+-	Neighbors :-
+	Running time is :- O(|V|^2)
+	Explanation :- The neighbors function of adjacency matrix representation takes O(|V|^2) time because it iterates through 2D array to insert in the arraylist of neighbors.
+-	Add node :-
+	Running time is :- O(|V|)
+	Explanation :- The add node function of adjacency matrix representation takes O(|V|) time because to check whether the node is present or not.
+-	Remove node :-
+	Running time is :- O(|V|)
+	Explanation :- The remove node function of adjacency matrix representation takes O(|V|) time because it iterates through all of the nodes to check whether the node is present or not.
+-	Add edge :-
+	Running time is :- O(1)
+	Explanation :- The add edge function of adjacency matrix representation takes O(1) time because it only makes the value of nodeFrom and nodeTo to edge x's value adding an edge to it.
+-	Remove edge :-
+	Running time is :- O(1)
+	Explanation :- The remove edge function of adjacency matrix representation O(1) time because it only makes the value of nodeFrom and nodeTo to 0 because it has to be removed.
+	
+3) Object Oriented
+-	Adjacent :-
+	Running time is :- O(|E|) 
+	Explanation :- The adjacent function of object oriented representation takes O(|E|) time because it iterates through all edges.
+-	Neighbors :-
+	Running time is :- O(|E|)
+	Explanation :- The neighbors function of object oriented representation takes O(|E|) time because it iterates through the array of edges to check whether the particular node equals node x or not.
+-	Add node :-
+	Running time is :- O(|V|)
+	Explanation :- The add node function of object oriented representation takes O(|V|) time because to check whether the node is present or not.
+-	Remove node :-
+	Running time is :- O(|V+E|)
+	Explanation :- The remove node function of Object oriented representation takes O(|V+E|) time because it iterates through all edges to remove the edge which contains the node to be removed and also it iterates through the nodes array to delete the node.
+-	Add edge :-
+	Running time is :- O(|E|)
+	Explanation :- The add edge function of object oriented representation takes O(|E|) time because it checks whether the edge to be added is already present in the edges array or not.
+-	Remove edge :-
+	Running time is :- O(|E|)
+	Explanation :- The remove edge function of object oriented representation O(|E|) time because it checks whether the edge to be added is already present in the edges array or not.
+	
+	
+2. Consider chess, what is the performance measure, environment, actuator and sensor?
+Performance measure :- The number of moves the agent requires to check mate the player who is opting dynamic moves everytime.
+Environment :- The environment is black and white squares and pieces.
+Actuators :- based on the environment and the pieces of the opponent and itself, the actuator is the best move the agent can take.
+Sensors :- sensors is the sequence of moves the opponent player takes and also the positions of the opponent's and the agent's pieces.
+
+3. Same with chess, formulate the problem in 5 components (initial state, possible actions, transition model, goal test, and path cost)
+Initial state :- the white and black pieces will be on their positions as per the rules of chess.
+Possible actions :- movement of the pieces according to the movement assigned to each piece. For eg, the king moves one square in any direction.
+Transition model :- Given the action of the player and the state of the positions of each of the white and black pieces , this returns the resulting state.
+Goal test :- Based on the action of the agent, check whether the action matches the goal. For example :- if the goal is to checkmate the player then check whether the percept sequence accomplishes the goal or not.
+Path cost :-
+
+4. Define chess environment type, is it fully observable or partially observable, is it deterministic or stochastic, is it discrete or continuous, is it benign or adversarial?
+It is fully observable, deterministic, discrete and benign.
+	

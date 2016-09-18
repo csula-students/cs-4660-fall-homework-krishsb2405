@@ -147,24 +147,6 @@ public class AdjacencyMatrix implements Representation {
     	{
     		nodes = Arrays.copyOf(nodes, nodes.length+1);
     		nodes[nodes.length-1] = x;
-    		/*for(int i=0;i<numberOfNodes;i++)
-    		{
-    			if(i==xInt.getData())
-    			{
-    				for(int j=0;j<numberOfNodes;j++)
-    				{
-    					adjacencyMatrix[i][j] = 0;
-    				}
-    			}
-    		}
-    		for(int i=0;i<numberOfNodes;i++)
-    		{
-				for(int j=0;j<numberOfNodes;j++)
-				{
-					if(j==xInt.getData())
-						adjacencyMatrix[i][j] = 0;
-				}
-    		}*/
     		return true;
     	}	
     	return false;
