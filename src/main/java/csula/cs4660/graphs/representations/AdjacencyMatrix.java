@@ -34,6 +34,7 @@ public class AdjacencyMatrix implements Representation {
     			{
     				line.trim();
     				numberOfNodes = Integer.parseInt(line);
+    				//sadasd
     				adjacencyMatrix = new int[numberOfNodes][numberOfNodes];
     				nodes = new Node[numberOfNodes];
     			}
