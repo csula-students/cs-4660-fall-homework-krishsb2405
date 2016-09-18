@@ -1,7 +1,5 @@
 package csula.cs4660.examples;
 
-
-
 /**
  * A hello world to test Java & Gradle installation
  */

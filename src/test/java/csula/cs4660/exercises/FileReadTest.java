@@ -39,5 +39,4 @@ public class FileReadTest {
     public void sum() throws Exception {
         assertEquals(fileRead.sum(1), (5 + 4 + 3 + 2 + 6 + 7 + 8 + 1));
     }
-    
 }
