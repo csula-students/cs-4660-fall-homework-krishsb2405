@@ -80,9 +80,10 @@ public class AdjacencyList implements Representation {
     	catch(FileNotFoundException fnfe){
     		
     	}
+
     }
 
-    public AdjacencyList() {
+    protected AdjacencyList() {
 
     }
 
