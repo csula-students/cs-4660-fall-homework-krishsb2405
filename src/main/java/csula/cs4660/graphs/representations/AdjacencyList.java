@@ -51,9 +51,7 @@ public class AdjacencyList implements Representation {
     				int value = Integer.parseInt(edgeAttributes[2]);
     				
     				Edge fromEdge = new Edge(fromNode,toNode,value);
-    				Edge toEdge = new Edge(toNode,fromNode,value);
     				Collection<Edge> fromEdges = null;
-    				Collection<Edge> toEdges = null;
      				if(!adjacencyList.containsKey(fromNode))
     				{
     					adjacencyList.put(fromNode,null);
@@ -210,6 +208,12 @@ public class AdjacencyList implements Representation {
 
     @Override
     public int distance(Node from, Node to) {
+    	Collection<Edge> allEdges = adjacencyList.get(from);
+    	for(Edge e:allEdges){
+    		if(e.getTo().equals(to)){
+    			return e.getValue();
+    		}
+    	}
         return 0;
     }
 
