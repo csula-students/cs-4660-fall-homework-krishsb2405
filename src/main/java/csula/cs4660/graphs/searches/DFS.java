@@ -21,28 +21,27 @@ public class DFS implements SearchStrategy {
     	HashMap<Node,Edge> previous = new HashMap<Node,Edge>();
     	stack.push(source);
     	visited.put(source, true);
-    	//System.out.println(source.getData());
     	while(!stack.isEmpty()){
     		Node currentNode = stack.peek();
     		List<Node> neighborsOfCurrentNode = new ArrayList<Node>();
     		neighborsOfCurrentNode = graph.neighbors(currentNode);
     		Node n = null;
-    		if(neighborsOfCurrentNode.size()>=1)
-    			n = neighborsOfCurrentNode.get(0);
-			if(!visited.containsKey(n)){
-				if(n!=null){
-    				stack.push(n);
-    				visited.put(n, true);
-    				previous.put(n, new Edge(currentNode,n,graph.distance(currentNode, n)));
-    				System.out.println(n.getData());
+    		if(neighborsOfCurrentNode.size()>=1){
+    			for(Node n1:neighborsOfCurrentNode){
+    				if(!visited.containsKey(n1)){
+    					n = n1;
+    					break;
+    				}
     			}
-				else{
-					stack.pop();
-				}
-			}
-			else{
-				stack.pop();
-			}
+    		}
+    		if(!visited.containsKey(n) && n!=null){
+				stack.push(n);
+				visited.put(n, true);
+				previous.put(n, new Edge(currentNode,n,graph.distance(currentNode, n)));
+    		}
+    		else{
+    			stack.pop();
+    		}
     	}
     	
     	Stack<Edge> path = new Stack<Edge>();

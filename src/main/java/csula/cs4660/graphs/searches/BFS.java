@@ -20,7 +20,6 @@ public class BFS implements SearchStrategy {
     	List<Edge> result = new ArrayList<Edge>();
     	Queue<Node> q = new LinkedList<Node>();
     	q.add(source);
-    	System.out.println(source.getData());
     	HashMap<Node, Boolean> visited = new HashMap<Node,Boolean>();
     	visited.put(source, true);
     	HashMap<Node,Edge> previousNode = new HashMap<Node,Edge>();
@@ -33,7 +32,6 @@ public class BFS implements SearchStrategy {
     				q.add(eachNeighbor);
     				visited.put(eachNeighbor,true);
     				previousNode.put(eachNeighbor,new Edge(currentNode,eachNeighbor,graph.distance(currentNode, eachNeighbor)));
-    				System.out.println(eachNeighbor.getData());
     			}
     		}
     	}
