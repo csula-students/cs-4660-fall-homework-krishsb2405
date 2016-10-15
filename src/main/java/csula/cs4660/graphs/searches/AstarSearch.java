@@ -13,6 +13,8 @@ public class AstarSearch implements SearchStrategy {
 
     @Override
     public List<Edge> search(Graph graph, Node source, Node dist) {
+    	System.out.println("Source = "+source.getData());
+    	System.out.println("Destination = "+dist.getData());
         return null;
     }
 }

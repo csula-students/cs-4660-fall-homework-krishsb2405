@@ -52,7 +52,7 @@ public class AStarTest {
             file
         );
 
-        graphs[1] = Parser.readRectangularGridFile(
+    /*    graphs[1] = Parser.readRectangularGridFile(
             Representation.STRATEGY.ADJACENCY_MATRIX,
             file
         );
@@ -60,7 +60,7 @@ public class AStarTest {
         graphs[2] = Parser.readRectangularGridFile(
             Representation.STRATEGY.OBJECT_ORIENTED,
             file
-        );
+        );*/
 
         return graphs;
     }
