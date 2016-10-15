@@ -20,10 +20,9 @@ import java.util.Scanner;
  */
 public class Parser {
 	static List<Tile> tiles = new ArrayList<Tile>();
+	static Collection<Edge> edges = new ArrayList<Edge>();
     public static Graph readRectangularGridFile(Representation.STRATEGY graphRepresentation, File file) {
         Graph graph = new Graph(Representation.of(graphRepresentation));
-        AdjacencyList adjacencyList;
-        AdjacencyMatrix adjacencyMatrix;
         try{
         	Scanner scanner = new Scanner(file);
         	int row=0,column = 0;
@@ -36,7 +35,7 @@ public class Parser {
         				if(nextLine.charAt(i) != '|'){
 	        				String eachTile = ""+nextLine.charAt(i)+""+nextLine.charAt(i+1);
 	        				i += 1;
-	        				tiles.add(new Tile(row,column,eachTile));
+	        				tiles.add(new Tile(column,row,eachTile));
 	        				column += 1;
         				}
         			}
@@ -48,32 +47,24 @@ public class Parser {
         catch(FileNotFoundException fe){
         	System.out.println("Sorry! File not found.");
         }
-        if(graphRepresentation.equals("ADJACENCY_LIST")){
-       	 	adjacencyList = new AdjacencyList();
-        }
-        if(graphRepresentation.equals("ADJACENCY_MATRIX")){
-        	adjacencyMatrix = new AdjacencyMatrix(tiles.size());
-        }
         List<Character> direction = new ArrayList<Character>();
-        List<Edge> allEdges = new ArrayList<Edge>();
+        
         direction.add('N'); direction.add('E'); direction.add('S'); direction.add('W');
         for(Tile eachTile:tiles){
         	for(Character dir:direction){
         		Tile tile = getTileInDirection(eachTile,dir);
         		if(tile!=null){
-        			Node from = new Node(eachTile.getX()+"-"+eachTile.getY()+"-"+eachTile.getType());
-        			Node to = new Node(tile.getX()+"-"+tile.getY()+"-"+tile.getType());
+        			Node from = new Node(eachTile);
+        			Node to = new Node(tile);
         			graph.addNode(from);
         			graph.addNode(to);
         			Edge e = new Edge(from,to,1);
         			if(graph.addEdge(e)){
-        				allEdges.add(e);
+        				edges.add(e);
         			}
         		}
         	}
         }
-        System.out.println("done");
-        // TODO: implement the rectangular file read and add node with edges to graph
         return graph;
     }
 
