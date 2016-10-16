@@ -4,8 +4,6 @@ import csula.cs4660.games.models.Tile;
 import csula.cs4660.graphs.Edge;
 import csula.cs4660.graphs.Graph;
 import csula.cs4660.graphs.Node;
-import csula.cs4660.graphs.representations.AdjacencyList;
-import csula.cs4660.graphs.representations.AdjacencyMatrix;
 import csula.cs4660.graphs.representations.Representation;
 
 import java.io.File;
@@ -20,7 +18,6 @@ import java.util.Scanner;
  * A quick parser class to read different format of files
  */
 public class Parser {
-	//static List<Tile> tiles = new ArrayList<Tile>();
 	static HashMap<String,Tile> tiles = new HashMap<String,Tile>(); 
 	static List<Tile> tilesList = new ArrayList<Tile>();
 	static Collection<Edge> edges = new ArrayList<Edge>();
@@ -69,6 +66,7 @@ public class Parser {
         return graph;
     }
 
+    
     private static void createNodesAndEdge(Graph graph,Tile eachTile ,Tile tile) {
 		// TODO Auto-generated method stub
     	if(tile!=null){
@@ -124,6 +122,7 @@ public class Parser {
         		direction += "N";
         	}
         }
+        System.out.println(direction);
         return direction;
     }
 }

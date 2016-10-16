@@ -96,7 +96,9 @@ public class AdjacencyMatrix implements Representation {
     		
     	}
     }
-    public AdjacencyMatrix(){}
+    public AdjacencyMatrix(){
+    	adjacencyMatrix = new int[0][0];
+    }
     public AdjacencyMatrix(int numberOfNodes) {
     	adjacencyMatrix = new int[numberOfNodes][numberOfNodes];
 		nodes = new Node[numberOfNodes];
