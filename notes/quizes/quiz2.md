@@ -2,7 +2,7 @@
 
 Total points: 10 pts
 
-Due date: Oct 15th 10:30am (at the end of class)
+Due date: Oct 16th 11:59pm (at the end of day)
 
 ## Context
 
@@ -12,8 +12,10 @@ Your job is to find a way out from this empty room to a dark room containing the
 
 ## Technical requirement
 
-Implement BFS & Dijkstra to find path to state starting from 
-`10a5461773e8fd60940a56d2e9ef7bf4` to `0c32523e344445c79fad7e3c59eb75b0`
+Implement BFS search to find path to state starting from 
+`10a5461773e8fd60940a56d2e9ef7bf4` to `e577aa79473673f6158cc73e0e5dc122`
+
+> updated at 11am Oct 15
 
 > For Dikjstra search, you will need to take the event effect (edge cost) into the consideration. Find out the best path that returns the highest value (or lowest cost)
 
@@ -30,14 +32,12 @@ link to my solution: https://github.com/csula-students/cs-4660-fall-homework-rcl
 
 BFS Path:
 
-Empty Room
-Dark Room
+Empty Room:Hall Way:-30
 ...
 
 Dijkstra Path:
 
-Empty Room
-Dire Tomb
+Empty Room:Hall Way:-30
 ...
 ```
 

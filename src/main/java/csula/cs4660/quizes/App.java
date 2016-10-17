@@ -3,67 +3,19 @@ package csula.cs4660.quizes;
 import csula.cs4660.quizes.models.DTO;
 import csula.cs4660.quizes.models.State;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
-
-import csula.cs4660.graphs.*;
-/**
- * Here is your quiz entry point and your app
- */
+import java.util.*;
 public class App {
-	
     public static void main(String[] args) {
         // to get a state, you can simply call `Client.getState with the id`
-    	
-    	// All declarations
-    	Queue<State> queue = new LinkedList<State>();
-    	HashMap<State, Boolean> visited = new HashMap<State,Boolean>();
-    	HashMap<State, State> parent = new HashMap<State,State>();
-    	
+    	//BFS();
+    	Dijkstra();
+    }
 
-    	//initialization
-    	State initialState = Client.getState("10a5461773e8fd60940a56d2e9ef7bf4").get();
-       
-    	visited.put(initialState, true);
-    	queue.add(initialState);
-        
-    	//BFS
-    	while(!queue.isEmpty()){
-    		State currentState = (State)queue.remove();
-    		
-    		if(currentState.getId().equals("e577aa79473673f6158cc73e0e5dc122")){
-    			List<State> path = new ArrayList<State>();
-    			System.out.println("BFS Path :");
-    			while(!currentState.getId().equals(initialState.getId())){
-    				path.add(currentState);
-    				currentState = parent.get(currentState);
-    			}
-    			Collections.reverse(path);
-    			int depth = 0;
-    			for(State state : path){
-    				System.out.print(state.getLocation().getName()+":");
-    				depth += 1;
-    			}
-    			System.out.print("-"+depth);
-    			System.out.println();
-    		}
-    		State[] neighboringStates = Client.getState(currentState.getId()).get().getNeighbors();
-    		for(State eachNeighbor : neighboringStates){
-    			if(!visited.containsKey(eachNeighbor)){
-    				queue.add(eachNeighbor);
-    				visited.put(eachNeighbor, true);
-    				parent.put(eachNeighbor, currentState);
-    			}
-    		}
-    	}
-    	
-    	//Djikstra's 
-    	HashMap<State,Integer> distanceOfEachState = new HashMap<State,Integer>();
+	private static void Dijkstra() {
+		System.out.println();
+		System.out.println("Dijkstra's path:");
+		State initialState = Client.getState("10a5461773e8fd60940a56d2e9ef7bf4").get();
+		HashMap<State,Integer> distanceOfEachState = new HashMap<State,Integer>();
     	List<State> openStates = new ArrayList<State>();
     	List<State> closedStates = new ArrayList<State>();
     	HashMap<State, State> parents = new HashMap<State,State>();
@@ -76,20 +28,7 @@ public class App {
     		closedStates.add(evaluationState);
     		
     		if(evaluationState.getId().equals("e577aa79473673f6158cc73e0e5dc122")){
-    			List<State> path = new ArrayList<State>();
-    			System.out.println("Djikstra's Path :");
-    			while(!evaluationState.getId().equals(initialState.getId())){
-    				path.add(evaluationState);
-    				evaluationState = parents.get(evaluationState);
-    			}
-    			Collections.reverse(path);
-    			int depth = 0;
-    			for(State state : path){
-    				System.out.print(state.getLocation().getName()+":");
-    				depth += 1;
-    			}
-    			System.out.print("-"+depth);
-    			System.out.println();
+    			System.out.println("found solution with depth of "+findDepth(parents, evaluationState, initialState));
     		}
     		for(State neighbor:Client.getState(evaluationState.getId()).get().getNeighbors()){
     			boolean found = false;
@@ -116,9 +55,55 @@ public class App {
     			}
     		}
     	}
+	}
+	private static void BFS() {
+		// TODO Auto-generated method stub
+		State initialState = Client.getState("10a5461773e8fd60940a56d2e9ef7bf4").get();
+        // to get an edge between state to its neighbor, you can call stateTransition
+        Queue<State> frontier = new LinkedList<>();
+        Set<State> exploredSet = new HashSet<>();
+        Map<State, State> parents = new HashMap<>();
+        frontier.add(initialState);
+        System.out.println("BFS Path:");
+        while (!frontier.isEmpty()) {
+            State current = frontier.poll();
+            exploredSet.add(current);
+            if (current.getId().equals("e577aa79473673f6158cc73e0e5dc122")) {
+                // construct actions from endTile
+                System.out.println("found solution with depth of " + findDepth(parents, current, initialState));
+                break;
+            }
+            // for every possible action
+            for (State neighbor: Client.getState(current.getId()).get().getNeighbors()) {
+                // state transition
+                if (!exploredSet.contains(neighbor)) {
+                    parents.put(neighbor, current);
+                    frontier.add(neighbor);
+                }
+            }
+        }
     }
 
-	private static State getStateWithLowestDistance(HashMap<State, Integer> distanceOfEachState,
+    public static int findDepth(Map<State, State> parents, State current, State start) {
+        State c = current;
+        int depth = 0;
+        List<State> path = new ArrayList<State>();
+        while (!c.equals(start)) {
+            depth ++;
+            path.add(c);
+            c = parents.get(c);
+        }
+        Collections.reverse(path);
+        for(int i =0;i < path.size()-1;i++){
+        	State firstState = path.get(i);
+        	State secondState = path.get(i+1);
+        	Optional<DTO> dto = Client.stateTransition(firstState.getId(), secondState.getId());
+        	System.out.println(firstState.getLocation().getName()+":"+secondState.getLocation().getName()+":-"+dto.get().getEvent().getEffect()+"                    ---"+dto.get().getEvent().getDescription());
+        }
+        return depth;
+    }
+    
+    private static State getStateWithLowestDistance(HashMap<State, Integer> distanceOfEachState,
 			List<State> openStates) {
 		// TODO Auto-generated method stub
     	int min = distanceOfEachState.get(openStates.get(0));
@@ -126,7 +111,7 @@ public class App {
     	State shortestState = null;
     	for(State n : openStates){
     		if(distanceOfEachState.containsKey(n)){
-    			if(distanceOfEachState.get(n)<=min){
+    			if(distanceOfEachState.get(n)>min){
     				min = distanceOfEachState.get(n);
     				shortestState = n;
     			}
@@ -138,5 +123,4 @@ public class App {
     	return shortestState;
 		
 	}
-
 }
