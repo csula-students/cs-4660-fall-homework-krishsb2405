@@ -40,11 +40,11 @@ public class App {
         			}
         		}
     			if(!found){
-    				Optional<DTO> dto = Client.stateTransition(neighbor.getId(),evaluationState.getId());
+    				Optional<DTO> dto = Client.stateTransition(evaluationState.getId(),neighbor.getId());
     				int effect = dto.get().getEvent().getEffect();
     				int totalEffectOfEachState = distanceOfEachState.get(evaluationState.getId()) + effect;
     				if(distanceOfEachState.containsKey(neighbor.getId())){
-    					if(distanceOfEachState.get(neighbor.getId())<totalEffectOfEachState){
+    					if(distanceOfEachState.get(neighbor.getId()) < totalEffectOfEachState){
     						distanceOfEachState.put(neighbor.getId(), totalEffectOfEachState);
     						parents.put(neighbor, evaluationState);
     						openStates.add(neighbor);
@@ -67,20 +67,18 @@ public class App {
         Map<State, State> parents = new HashMap<>();
         frontier.add(initialState);
         System.out.println("BFS Path:");
-        boolean reachedGoal = false;
-        while (!frontier.isEmpty() && !reachedGoal) {
+        while (!frontier.isEmpty()) {
             State current = frontier.poll();
             exploredSet.add(current);
-            
+            if (current.getId().equals("e577aa79473673f6158cc73e0e5dc122")) {
+                // construct actions from endTile
+                System.out.println("found solution with depth of " + findDepth(parents, current, initialState));
+                break;
+            }
             // for every possible action
             for (State neighbor: Client.getState(current.getId()).get().getNeighbors()) {
                 // state transition
-            	if (neighbor.getId().equals("e577aa79473673f6158cc73e0e5dc122")) {
-                    // construct actions from endTile
-                    System.out.println("found solution with depth of " + findDepth(parents, current, initialState));
-                    reachedGoal = true;
-                    break;
-                }
+            	
                 if (!exploredSet.contains(neighbor)) {
                     parents.put(neighbor, current);
                     frontier.add(neighbor);
@@ -118,7 +116,7 @@ public class App {
     	for(State n : openStates){
     		if(distanceOfEachState.containsKey(n.getId())){
     			int effect = distanceOfEachState.get(n.getId());
-    			if(effect>=max){
+    			if(effect>max){
     				max = distanceOfEachState.get(n.getId());
     				highestEffectState = n;
     			}
