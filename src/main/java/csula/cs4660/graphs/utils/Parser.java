@@ -20,8 +20,9 @@ import java.util.Scanner;
 public class Parser {
 	static HashMap<String,Tile> tiles = new HashMap<String,Tile>(); 
 	static List<Tile> tilesList = new ArrayList<Tile>();
-	static Collection<Edge> edges = new ArrayList<Edge>();
+	
     public static Graph readRectangularGridFile(Representation.STRATEGY graphRepresentation, File file) {
+    	Collection<Edge> edges = new ArrayList<Edge>();
         Graph graph = new Graph(Representation.of(graphRepresentation));
         try{
         	Scanner scanner = new Scanner(file);
@@ -45,16 +46,17 @@ public class Parser {
         			row += 1;
         		}
         	}
+        	
         	for(Tile eachTile:tilesList){
         		Tile north = getTileInDirection(eachTile, 'N');
         		Tile east = getTileInDirection(eachTile, 'E');
-        		Tile south = getTileInDirection(eachTile, 'S');
         		Tile west = getTileInDirection(eachTile, 'W');
+        		Tile south = getTileInDirection(eachTile, 'S');
         		
-        		createNodesAndEdge(graph,eachTile,north);
-        		createNodesAndEdge(graph,eachTile,east);
-        		createNodesAndEdge(graph,eachTile,south);
-        		createNodesAndEdge(graph,eachTile,west);
+        		createNodesAndEdge(graph,eachTile,north,edges);
+        		createNodesAndEdge(graph,eachTile,east,edges);
+        		createNodesAndEdge(graph,eachTile,west,edges);
+        		createNodesAndEdge(graph,eachTile,south,edges);
         		
         	}
         	scanner.close();
@@ -67,19 +69,26 @@ public class Parser {
     }
 
     
-    private static void createNodesAndEdge(Graph graph,Tile eachTile ,Tile tile) {
+    private static void createNodesAndEdge(Graph graph,Tile eachTile ,Tile tile, Collection<Edge> edges) {
 		// TODO Auto-generated method stub
     	if(tile!=null){
-			Node<Tile> from = new Node(eachTile);
-			Node<Tile> to = new Node(tile);
+			Node<Tile> from = new Node<Tile>(eachTile);
+			Node<Tile> to = new Node<Tile>(tile);
 			graph.addNode(from);
 			graph.addNode(to);
-			Edge e = new Edge(from,to,1);
-			if(graph.addEdge(e)){
-				edges.add(e);
-			}
+			createEdge(graph,from,to,edges);
 		}
 	}
+
+	private static void createEdge(Graph graph, Node<Tile> from, Node<Tile> to, Collection<Edge> edges) {
+		// TODO Auto-generated method stub
+		Edge e = new Edge(from,to,1);
+		if(graph.addEdge(e)){
+			edges.add(e);
+		}
+		System.out.println(edges.size());
+	}
+
 
 	private static Tile getTileInDirection(Tile eachTile,Character direction) {
 		// TODO Auto-generated method stub

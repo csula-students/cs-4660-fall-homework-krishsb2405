@@ -1,5 +1,6 @@
 package csula.cs4660.graphs.representations;
 
+import csula.cs4660.games.models.Tile;
 import csula.cs4660.graphs.Edge;
 import csula.cs4660.graphs.Node;
 
@@ -12,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import org.apache.commons.lang3.ArrayUtils;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 
 /**
  * Adjacency matrix in a sense store the nodes in two dimensional array
@@ -36,58 +40,15 @@ public class AdjacencyMatrix implements Representation {
     				numberOfNodes = Integer.parseInt(line);
     				adjacencyMatrix = new int[numberOfNodes][numberOfNodes];
     				nodes = new Node[numberOfNodes];
+    				for(int i = 0 ; i < numberOfNodes ; i++){
+    					nodes[i] = new Node(i);
+    				}
     			}
     			else
     			{
     				String[] edgeAttributes = line.split(":");
     				int value = Integer.parseInt(edgeAttributes[2]);
-    				boolean presentFromNode = false;
-    				boolean presentToNode = false;
-    				int count = 0;
-    				Node<Integer> fromNode = new Node<Integer>(Integer.parseInt(edgeAttributes[0]));
-    				Node<Integer> toNode = new Node<Integer>(Integer.parseInt(edgeAttributes[1]));
-       				new Edge(fromNode,toNode,value);
-       				for(int i=0;i<numberOfNodes;i++)
-       				{
-       					if(fromNode.equals(nodes[i]))
-       					{
-       						presentFromNode = true;
-       						break;
-       					}
-       				}
-       				if(presentFromNode==false)
-       				{
-       					for(int i=0;i<numberOfNodes;i++)
-       					{
-       						if(nodes[i]==null)
-       						{
-       							nodes[i] = fromNode;
-       							break;
-       						}
-       					}
-       				}
-       				for(int i=0;i<numberOfNodes;i++)
-       				{
-       					if(toNode.equals(nodes[i]))
-       					{
-       						presentToNode = true;
-       						break;
-       					}
-       				}
-       				if(presentToNode==false)
-       				{
-       					for(int i=0;i<numberOfNodes;i++)
-       					{
-       						if(nodes[i]==null)
-       						{
-       							nodes[i] = toNode;
-       							break;
-       						}
-       					}
-       				}
-    				int fromNodeInt = fromNode.getData();
-    				int toNodeInt = toNode.getData();
-    				adjacencyMatrix[fromNodeInt][toNodeInt] = value;
+    				adjacencyMatrix[Integer.parseInt(edgeAttributes[0])][Integer.parseInt(edgeAttributes[1])]= value;
     			}
     		}
     		scanner.close();
@@ -98,6 +59,7 @@ public class AdjacencyMatrix implements Representation {
     }
     public AdjacencyMatrix(){
     	adjacencyMatrix = new int[0][0];
+    	nodes = new Node[0];
     }
     public AdjacencyMatrix(int numberOfNodes) {
     	adjacencyMatrix = new int[numberOfNodes][numberOfNodes];
@@ -115,30 +77,24 @@ public class AdjacencyMatrix implements Representation {
 
     @Override
     public List<Node> neighbors(Node x) {
-    	Node<Integer> xInt = x;
+    	int column = 0;
+    	int index = ArrayUtils.indexOf(nodes, x);
     	List<Node> neighborsNodes = new ArrayList<Node>();
-    	Node neighbor;
-    	for(int i=0;i<numberOfNodes;i++)
-    	{
-    		if(xInt.getData()==i)
-    		{
-	    		for(int j=0;j<numberOfNodes;j++)
-	    		{
-	    			if(adjacencyMatrix[i][j]!=0)
-	    			{
-	    				neighborsNodes.add(new Node(j));
-	    			}
-	    		}
+    	for(int i :adjacencyMatrix[index]){
+    		if(i>0){
+    			neighborsNodes.add(nodes[column]);
     		}
+    		column+=1;
     	}
         return neighborsNodes;
     }
 
     @Override
-    public boolean addNode(Node x) {
-    	Node<Integer> xInt = x;
+    public boolean  addNode(Node x) {
     	boolean present = false;
-    	for(int i=0;i<numberOfNodes;i++)
+    	
+    	
+		for(int i=0;i<nodes.length;i++)
     	{
     		if(x.equals(nodes[i]))
     		{
@@ -150,8 +106,23 @@ public class AdjacencyMatrix implements Representation {
     	{
     		nodes = Arrays.copyOf(nodes, nodes.length+1);
     		nodes[nodes.length-1] = x;
+    		
+    		int[][] adjacencyTemp = Arrays.copyOf(adjacencyMatrix, adjacencyMatrix.length+1);
+    		adjacencyTemp[adjacencyMatrix.length] = new int[adjacencyMatrix.length];
+    		for(int i = 0; i<adjacencyMatrix.length;i++){
+    			adjacencyTemp[adjacencyMatrix.length][i] = 0;
+    		}
+    		int[][] temp = new int[adjacencyMatrix.length+1][adjacencyMatrix.length+1];
+    		int t = 0;
+    		for(int[] each:adjacencyTemp){
+    			int[] temp1 = Arrays.copyOf(each, each.length+1);
+    			temp[t] = temp1;
+    			t = t + 1;
+    		}
+    		adjacencyMatrix = new int[adjacencyMatrix.length+1][adjacencyMatrix.length+1];
+    		adjacencyMatrix = temp;
     		return true;
-    	}	
+    	}
     	return false;
     }
 
@@ -183,18 +154,16 @@ public class AdjacencyMatrix implements Representation {
     public boolean addEdge(Edge x) {
     	Node<Integer> from = x.getFrom();
     	Node<Integer> to = x.getTo();
-		if(adjacencyMatrix[from.getData()][to.getData()]!=0)
+		if(adjacencyMatrix[ArrayUtils.indexOf(nodes, from)][ArrayUtils.indexOf(nodes, to)]!=0)
 		{
 			return false;
 		}
 		else
 		{
-			adjacencyMatrix[from.getData()][to.getData()]=x.getValue();
-			new Edge(x.getFrom(),x.getTo(),x.getValue());
+			adjacencyMatrix[ArrayUtils.indexOf(nodes, from)][ArrayUtils.indexOf(nodes, to)]=x.getValue();
 			return true;
-		}
+		}	
     }
-
     @Override
     public boolean removeEdge(Edge x) {
     	Node<Integer> from = x.getFrom();
@@ -215,9 +184,8 @@ public class AdjacencyMatrix implements Representation {
 
     @Override
     public int distance(Node from, Node to) {
-    	Node<Integer> fromInt = from;
-    	Node<Integer> toInt = to;
-    	int weight = adjacencyMatrix[fromInt.getData()][toInt.getData()];
+    	
+    	int weight = adjacencyMatrix[(int)from.getData()][(int)to.getData()];
         return weight;
     }
 

@@ -54,14 +54,14 @@ public class AstarSearch implements SearchStrategy {
 	    			if(exploredSet.contains(eachNeighbor)){
 	    				continue;
 	    			}
-	    			int tempGScore = gScore.get(currentNode) + graph.distance(currentNode, eachNeighbor);
+	    			int tempGScore = gScore.get(currentNode) + 1;
 	    			if(!frontier.contains(eachNeighbor)){
 	    				frontier.add(eachNeighbor);
 	    			}
 	    			else if(tempGScore>=gScore.get(eachNeighbor)){
 	    				continue;
 	    			}
-	    			parent.put(eachNeighbor,new Edge(currentNode,eachNeighbor,graph.distance(currentNode, eachNeighbor)));
+	    			parent.put(eachNeighbor,new Edge(currentNode,eachNeighbor,1));
 	    			gScore.put(eachNeighbor,tempGScore);
 	    			fScore.put(eachNeighbor,gScore.get(eachNeighbor)+heuristicCost(eachNeighbor,dist));
     			}
