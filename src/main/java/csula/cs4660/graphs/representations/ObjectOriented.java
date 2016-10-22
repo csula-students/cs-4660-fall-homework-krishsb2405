@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 
 /**
  * Object oriented representation of graph is using OOP approach to store nodes
@@ -79,7 +81,8 @@ public class ObjectOriented implements Representation {
     }
 
     public ObjectOriented() {
-
+    	nodes = new ArrayList<Node>(); 
+        edges = new ArrayList<Edge>();
     }
 
     @Override
@@ -101,34 +104,18 @@ public class ObjectOriented implements Representation {
     @Override
     public List<Node> neighbors(Node x) {
     	List<Node> neighborsList = new ArrayList<Node>(); 
-    	boolean present = false;
-    	for(Edge edge:edges)
-    	{
-    		if(edge.getFrom().equals(x)){
-    			neighborsList.add(edge.getTo());
-    			present = true;
-    		}
-    	}
-    	
+    	edges.forEach(edge->{
+    		if(edge.getFrom().equals(x)){neighborsList.add(edge.getTo());}
+    	});
     	return neighborsList;
     	
     }
 
     @Override
     public boolean addNode(Node x) {
-    	boolean present = false;
-    	for(Node node:nodes){
-    		if(node.equals(x)){
-    			present = true;
-    		}
-    	}
-    	if(present==true){
-    		return false;
-    	}
-    	else{
-    		nodes.add(x);
-    		return true;
-    	}
+    	if(nodes.contains(x)) return false;
+    	nodes.add(x);
+    	return true;    	
     }
 
     @Override
@@ -158,19 +145,9 @@ public class ObjectOriented implements Representation {
 
     @Override
     public boolean addEdge(Edge x) {
-    	boolean present = false;
-    	for(Edge edge:edges)
-    	{
-    		if(edge.equals(x))
-    			present = true;
-    	}
-    	if(present)
-    		return false;
-    	else
-    	{
-    		edges.add(x);
-    		return true;
-    	}
+    	if(edges.contains(x)) return false;
+    	edges.add(x);
+    	return true;
     }
 
     @Override
