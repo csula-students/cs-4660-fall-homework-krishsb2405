@@ -76,7 +76,7 @@ public class AstarSearch implements SearchStrategy {
     	Node<Tile> shortestNode = null;
     	for(Node<Tile> n : frontier){
     		if(fScore.containsKey(n)){
-    			if(fScore.get(n)<=min){
+    			if(fScore.get(n)<min){
     				min = fScore.get(n);
     				shortestNode = n;
     			}
