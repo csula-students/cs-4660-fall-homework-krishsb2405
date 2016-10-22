@@ -98,8 +98,6 @@ public class Parser {
     		createEdge(graph,eachTile.getValue(),west);
     		createEdge(graph,eachTile.getValue(),south);
     	}
-    	System.out.println(tiles.size());
-        System.out.println("done "+file.getAbsolutePath());
         return graph;
     }
 
@@ -152,7 +150,6 @@ public class Parser {
         		direction += "N";
         	}
         }
-        System.out.println(direction);
         return direction;
     }
 }

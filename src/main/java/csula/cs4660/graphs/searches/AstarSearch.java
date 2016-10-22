@@ -87,13 +87,31 @@ public class AstarSearch implements SearchStrategy {
     	}
     	return shortestNode;
 	}
-	private Integer heuristicCost(Node source, Node dist) {
+	private Node<Tile> findNodeWithLowestFScore(Node<Tile> neighbor) {
+		// TODO Auto-generated method stub
+		int min = fScore.get(neighbor);
+    	int temp = min;
+    	Node<Tile> shortestNode = null;
+    	for(Node<Tile> n : frontier){
+    		if(fScore.containsKey(n)){
+    			if(fScore.get(n)<min){
+    				min = fScore.get(n);
+    				shortestNode = n;
+    			}
+    		}
+    	}
+    	if(temp==min){
+    		shortestNode = frontier.get(0);
+    	}
+    	return shortestNode;
+	}
+	private int heuristicCost(Node source, Node dist) {
 		// TODO Auto-generated method stub
 		Tile sourceTile = (Tile)source.getData();
 		Tile destTile = (Tile)dist.getData();
 		int dx = Math.abs(sourceTile.getX()-destTile.getX());
 		int dy = Math.abs(sourceTile.getY()-destTile.getY());
-		return dx*dy;
+		return 1*(dx+dy);
 	}
     
 }

@@ -75,7 +75,6 @@ public class AdjacencyMatrix implements Representation {
     	int column = 0;
     	int index = -1;
     	for(int i = 0 ;i<nodes.length;i++){
-    		System.out.println(nodes[i]);
     		if(nodes[i]!=null){
     			if(nodes[i].equals(x)){
         			index = i;
