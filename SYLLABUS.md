@@ -66,12 +66,12 @@ The schedule below is tentative and is subject to change.
 | 1  [08/27]         | [Introduction][1] | Set up environment |
 | 2  [09/03]         | [Graph representation][2] |  |
 | 3  [09/10]         | [Graph representation][2] |  |
-| 4  [09/17]         | [BFS, DFS][3] | [Homework 1][9], Quiz 1 |
+| 4  [09/17]         | [BFS, DFS][10] | [Homework 1][9], Quiz 1 |
 | 5  [09/24]         | [Dijkstra search][3] |  |
 | 6  [10/01]         | [Heuristic search][4] |  |
 | 7  [10/08]         | [Heuristic search][4] |  |
-| 8  [10/15]         | [Minimax][5] | Homework 2, Quiz 2 |
-| 9  [10/22]         | [Minimax][5] |  |
+| 8  [10/15]         | [Minimax][5] | [Homework 2][11], Quiz 2 |
+| 9  [10/22]         | [Minimax][5] | No class |
 | 10 [10/29]         | [Alpha-beta pruning][6] | Homework 3 |
 | 11 [11/05]         | [Alpha-beta pruning][6] |  |
 | 12 [11/12]         | [Monte Carlo Tree Search][7] | Quiz 3 |
@@ -89,3 +89,5 @@ The schedule below is tentative and is subject to change.
 [7]: notes/monte-carlo-tree-search.md
 [8]: notes/project.md
 [9]: notes/homeworks/homework1.md
+[10]: notes/problem-searching.md
+[11]: notes/homeworks/homework2.md

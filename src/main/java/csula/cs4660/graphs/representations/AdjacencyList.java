@@ -22,7 +22,7 @@ import java.util.Scanner;
  * TODO: please implement the method body
  */
 public class AdjacencyList implements Representation {
-    private Map<Node<Integer>, Collection<Edge>> adjacencyList;
+    private Map<Node<Integer>, Collection<Edge>> adjacencyList = new HashMap<Node<Integer>,Collection<Edge>>();
     Node<Integer> fromNode;
 	Node<Integer> toNode;
 	Edge fromEdge;
@@ -41,7 +41,6 @@ public class AdjacencyList implements Representation {
     			{
     				line.trim();
     				numberOfNodes = Integer.parseInt(line);
-    				adjacencyList = new HashMap<Node<Integer>,Collection<Edge>>(numberOfNodes);
     			}
     			else
     			{
@@ -51,9 +50,7 @@ public class AdjacencyList implements Representation {
     				int value = Integer.parseInt(edgeAttributes[2]);
     				
     				Edge fromEdge = new Edge(fromNode,toNode,value);
-    				Edge toEdge = new Edge(toNode,fromNode,value);
     				Collection<Edge> fromEdges = null;
-    				Collection<Edge> toEdges = null;
      				if(!adjacencyList.containsKey(fromNode))
     				{
     					adjacencyList.put(fromNode,null);
@@ -80,10 +77,11 @@ public class AdjacencyList implements Representation {
     	catch(FileNotFoundException fnfe){
     		
     	}
+
     }
 
     public AdjacencyList() {
-
+    	adjacencyList = new HashMap<Node<Integer>,Collection<Edge>>();
     }
 
     @Override
@@ -173,12 +171,18 @@ public class AdjacencyList implements Representation {
     	Node from = x.getFrom();
     	Node to = x.getTo();
     	boolean present = false;
-    	Collection<Edge> edges = adjacencyList.get(from);
-    	
-    	for(Edge edge : edges)
-    	{
-    		if(edge.getFrom().equals(from) && edge.getTo().equals(to))
-    			present = true;
+    	Collection<Edge> edges = new ArrayList<Edge>();
+    	if(adjacencyList.containsKey(from)){
+    		if(adjacencyList.get(from)!=null){
+    			edges = adjacencyList.get(from);
+    		}
+    		if(edges != null){
+		    	for(Edge edge : edges)
+		    	{
+		    		if(edge.getFrom().equals(from) && edge.getTo().equals(to))
+		    			present = true;
+		    	}
+    		}
     	}
     	if(present)
     		return false;
@@ -209,6 +213,12 @@ public class AdjacencyList implements Representation {
 
     @Override
     public int distance(Node from, Node to) {
+    	Collection<Edge> allEdges = adjacencyList.get(from);
+    	for(Edge e:allEdges){
+    		if(e.getTo().equals(to)){
+    			return e.getValue();
+    		}
+    	}
         return 0;
     }
 
