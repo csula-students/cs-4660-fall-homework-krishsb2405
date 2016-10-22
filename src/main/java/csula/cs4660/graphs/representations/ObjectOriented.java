@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -26,7 +24,6 @@ public class ObjectOriented implements Representation {
     int numberOfNodes = 0;
     private Node fromNode;
     private Node toNode;
-    private HashMap<Node,Collection<Edge>> edgesForOneNode;
     public ObjectOriented(File file) {
     	try
     	{
@@ -40,10 +37,6 @@ public class ObjectOriented implements Representation {
     				numberOfNodes = Integer.parseInt(line);
     				nodes = new ArrayList<Node>();
     				edges = new ArrayList<Edge>();
-    				edgesForOneNode = new HashMap<Node,Collection<Edge>>();
-    				for(int i = 0; i <numberOfNodes; i ++){
-    					edgesForOneNode.put(new Node(i), new ArrayList<Edge>());
-    				}
     			}
     			else
     			{
@@ -52,7 +45,6 @@ public class ObjectOriented implements Representation {
     				toNode = new Node<>(Integer.parseInt(edgeAttributes[1]));
     				int value = Integer.parseInt(edgeAttributes[2]);
     				Edge edge = new Edge(fromNode,toNode,value);
-    				
     				boolean nodePresent=false;
     				boolean edgePresent=false;
     				if(nodes.isEmpty())
@@ -63,10 +55,8 @@ public class ObjectOriented implements Representation {
 	    						nodePresent = true;
 	    					}	
 	    				}
-	    				if(!nodePresent){
+	    				if(!nodePresent)
 	    					nodes.add(fromNode);
-	    				}
-	    					
     				}
     				if(edges.isEmpty())
     					edges.add(edge);
@@ -79,17 +69,6 @@ public class ObjectOriented implements Representation {
 	    				if(!edgePresent)
 	    					edges.add(edge);
     				}
-    				for(Node n : nodes){
-    					Collection<Edge> temp = new ArrayList<Edge>();
-    					for(Edge e : edges){
-    						if(e.getFrom().equals(n)){
-    							
-    							temp.add(e);
-    							edgesForOneNode.put(n,temp);
-    						}
-    					}
-    					
-    				}
     			}
     		}
     		scanner.close();
@@ -100,9 +79,7 @@ public class ObjectOriented implements Representation {
     }
 
     public ObjectOriented() {
-    	nodes = new ArrayList<Node>(); 
-        edges = new ArrayList<Edge>();
-        edgesForOneNode = new HashMap<Node,Collection<Edge>>();
+
     }
 
     @Override
@@ -124,86 +101,76 @@ public class ObjectOriented implements Representation {
     @Override
     public List<Node> neighbors(Node x) {
     	List<Node> neighborsList = new ArrayList<Node>(); 
-    	
-    	if(edgesForOneNode.containsKey(x)){
-    		Collection<Edge> edge = edgesForOneNode.get(x);
-    		edge.forEach(e->{
-        		if(e.getFrom().equals(x)){neighborsList.add(e.getTo());}
-        	});
+    	boolean present = false;
+    	for(Edge edge:edges)
+    	{
+    		if(edge.getFrom().equals(x)){
+    			neighborsList.add(edge.getTo());
+    			present = true;
+    		}
     	}
+    	
     	return neighborsList;
     	
     }
 
     @Override
     public boolean addNode(Node x) {
-    	if(!edgesForOneNode.containsKey(x)){
-    		edgesForOneNode.put(x, new ArrayList<Edge>());
+    	boolean present = false;
+    	for(Node node:nodes){
+    		if(node.equals(x)){
+    			present = true;
+    		}
+    	}
+    	if(present==true){
+    		return false;
+    	}
+    	else{
     		nodes.add(x);
     		return true;
     	}
-    	return false;
     }
 
     @Override
     public boolean removeNode(Node x) {
-    	if(edgesForOneNode.containsKey(x)){
-    		Collection<Edge> edgesList = edgesForOneNode.get(x);
-    		edgesForOneNode.remove(x);
-    		for(Map.Entry<Node,Collection<Edge>> entry:edgesForOneNode.entrySet()){
-    			Collection<Edge> tempEdges = entry.getValue();
-    			Node for1 = entry.getKey();
-    			Iterator<Edge> iterate = tempEdges.iterator();
-            	
-            	while(iterate.hasNext())
-            	{
-            		Edge e = iterate.next();
-            		if(e.getTo().equals(x))
-            		{
-            			iterate.remove();
-            		}
-            	}
-    			edgesForOneNode.put(for1, tempEdges);
-    		}
-        	Iterator<Edge> iterate = edges.iterator();
-        	
-        	while(iterate.hasNext())
-        	{
-        		Edge e = iterate.next();
-        		if(e.getFrom().equals(x) || e.getTo().equals(x))
-        		{
-        			iterate.remove();
-        		}
-        	}
-        	for(Node node:nodes){
-        		if(node.equals(x)){
-        			nodes.remove(node);
-        			break;
-        		}
-        	}
-        	return true;
-    	}
-    	return false;
+    	boolean nodeFound = false;
+    	Iterator<Edge> iterate = edges.iterator();
+    	while(iterate.hasNext())
+    	{
+    		Edge e = iterate.next();
     	
+    		if(e.getFrom().equals(x) || e.getTo().equals(x))
+    		{
+    			iterate.remove();
+    		}
+    	}
+    	for(Node node:nodes){
+    		if(node.equals(x)){
+    			nodes.remove(node);
+    			nodeFound = true;
+    			break;
+    		}
+    	}
+    	if(nodeFound)
+    		return true;
+    	return false;
     }
 
     @Override
     public boolean addEdge(Edge x) {
-    	Node from = x.getFrom();
-    	Node to = x.getTo();
-    	if(edgesForOneNode.containsKey(x.getFrom()) && edgesForOneNode.containsKey(x.getTo())){
-    		Collection<Edge> temp = edgesForOneNode.get(from);
-    		for(Edge e:temp){
-    			if(e.equals(x)){
-    				return false;
-    			}
-    		}
+    	boolean present = false;
+    	for(Edge edge:edges)
+    	{
+    		if(edge.equals(x))
+    			present = true;
+    	}
+    	if(present)
+    		return false;
+    	else
+    	{
     		edges.add(x);
-    		temp.add(x);
-    		edgesForOneNode.put(from, temp);
     		return true;
     	}
-    	return false;
     }
 
     @Override
@@ -225,17 +192,6 @@ public class ObjectOriented implements Representation {
 
     @Override
     public int distance(Node from, Node to) {
-    	for(Edge edge:edges)
-    	{
-    		if(edge.getFrom().equals(from) && edge.getTo().equals(to))
-    		{
-    			return edge.getValue();
-    		}
-    		if(edge.getTo().equals(from) && edge.getFrom().equals(to))
-    		{
-    			return edge.getValue();
-    		}
-    	}
         return 0;
     }
 

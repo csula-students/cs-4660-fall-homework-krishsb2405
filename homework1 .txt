@@ -72,11 +72,8 @@ Initial state :- the white and black pieces will be on their positions as per th
 Possible actions :- movement of the pieces according to the movement assigned to each piece. For eg, the king moves one square in any direction.
 Transition model :- Given the action of the player and the state of the positions of each of the white and black pieces , this returns the resulting state.
 Goal test :- Based on the action of the agent, check whether the action matches the goal. For example :- if the goal is to checkmate the player then check whether the percept sequence accomplishes the goal or not.
-Path cost :- Among all of the possible perceptive movements, the move that will accomplish the goal in fewest moves.
+Path cost :-
 
 4. Define chess environment type, is it fully observable or partially observable, is it deterministic or stochastic, is it discrete or continuous, is it benign or adversarial?
-It is fully observable :- Agent can fully observe all variables of the environment.
-It is deterministic :- Each movement of the player determines the next state of the agent.
-It is discrete :- Each move can give millions of permutations and combinations for agent but still it is countable.
-It is benign :- The agent has an opponent who is against it.
+It is fully observable, deterministic, discrete and benign.
 	
