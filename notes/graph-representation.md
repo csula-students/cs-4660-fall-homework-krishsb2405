@@ -2,7 +2,6 @@
 
 ## Objectives
 
-<<<<<<< HEAD
 * Learn how to represent knowledge using Graph as data structure
 * Homework 1 discussion
 
@@ -462,7 +461,6 @@ Reference: [Wikipedia - Abstract data structure][wiki-graph]
 2. Fail and cry
 3. Fix
 4. Rinse and repeat
->>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
 
 ### [Design Pattern][design-pattern] in action
 
@@ -471,9 +469,7 @@ Reference: [Wikipedia - Abstract data structure][wiki-graph]
 
 ### [Homework 1](homeworks/homework1.md)
 
-<<<<<<< HEAD
 Finish remaining code for graph package
-
 
 [wiki-graph]: https://en.wikipedia.org/wiki/Graph_(abstract_data_type)
 [design-pattern]: https://github.com/iluwatar/java-design-patterns
@@ -481,4 +477,3 @@ Finish remaining code for graph package
 [wiki-graph]: https://en.wikipedia.org/wiki/Graph_(abstract_data_type)
 [design-pattern]: https://github.com/iluwatar/java-design-patterns
 [tdd]: http://agiledata.org/essays/tdd.html
->>>>>>> 6c705035dd2e0fc0493533e929b85392ac775ab2
