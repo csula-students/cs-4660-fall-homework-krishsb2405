@@ -1,8 +1,6 @@
 package csula.cs4660.graphs.representations;
-
 import csula.cs4660.graphs.Edge;
 import csula.cs4660.graphs.Node;
-
 import java.io.File;
 
 import java.io.FileNotFoundException;
@@ -26,6 +24,7 @@ import java.util.*;
  * TODO: please implement the method body
  */
 public class AdjacencyList implements Representation {
+
     private Map<Node<Integer>, Collection<Edge>> adjacencyList = new HashMap<Node<Integer>,Collection<Edge>>();
     Node<Integer> fromNode;
 	Node<Integer> toNode;
@@ -34,8 +33,7 @@ public class AdjacencyList implements Representation {
     public AdjacencyList(File file) {
     	try
     	{
-    		Scanner scanner = new Scanner(file);
-    		
+    		Scanner scanner = new Scanner(file);	
     		int numberOfNodes = 0;
     		
     		while(scanner.hasNextLine())
@@ -82,11 +80,13 @@ public class AdjacencyList implements Representation {
     		
     	}
 
+
     }
 
     public AdjacencyList() {
     	adjacencyList = new HashMap<Node<Integer>,Collection<Edge>>();
     }
+    
 
     @Override
     public boolean adjacent(Node x, Node y) {
