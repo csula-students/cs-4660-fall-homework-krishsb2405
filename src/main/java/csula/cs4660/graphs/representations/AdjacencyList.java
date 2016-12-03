@@ -233,15 +233,14 @@ public class AdjacencyList implements Representation {
 
     @Override
     public Optional<Node> getNode(Node node) {
-       /* Iterator<Node> iterator = adjacencyList.keySet().iterator();
+        Iterator iterator = adjacencyList.keySet().iterator();
         Optional<Node> result = Optional.empty();
         while (iterator.hasNext()) {
-            Node next = iterator.next();
+            Node next = (Node)iterator.next();
             if (next.equals(node)) {
                 result = Optional.of(next);
             }
         }
-        return result;*/
-    	return null;
+        return result;
     }
 }

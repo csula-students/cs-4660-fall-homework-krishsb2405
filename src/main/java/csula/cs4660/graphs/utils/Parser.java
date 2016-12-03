@@ -57,7 +57,6 @@ class XY{
 			return false;
 		return true;
 	}
-	
 }
 public class Parser {
 	static HashMap<XY,Tile> tiles = new HashMap<XY,Tile>(); 
