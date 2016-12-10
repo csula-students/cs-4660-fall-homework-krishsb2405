@@ -1,6 +1,8 @@
 package csula.cs4660.games;
 import java.util.*;
 import java.util.Map.Entry;
+
+
 import java.io.*;
 import java.math.*;
 
@@ -366,57 +368,49 @@ class Player {
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Node getBestMove(Graph graph, Node<MiniMaxState> source, Integer depth, Integer alpha, Integer beta, Boolean max) {
-	        // TODO: implement your alpha beta pruning algorithm here
-
-	    	if(rootNode == null){
-	    	rootNode = source;
-	    	}
-	    	Node bestValue;
-	        if (depth == 0 || graph.neighbors(source).size() == 0) {
+        // TODO: implement your alpha beta pruning algorithm here
+    	Node<MiniMaxState> v;
+    	 if (depth == 0 || graph.neighbors(source).size() == 0) {
 	        	int value = evaluateState(source);
 	        	source.getData().setValue(value);
 	        	return source; // return a number
 	        }
+    	if(max){
+    		v = new Node<>(new MiniMaxState(null, Integer.MIN_VALUE,"")); // negative infinite
+    		for(Node<MiniMaxState> eachNeighbor:graph.neighbors(source)){
+    			Node<MiniMaxState> v1 = getBestMove(graph, eachNeighbor, depth-1, alpha, beta, false);
+    			if(v1.getData().getValue()>v.getData().getValue()){
+    				v = v1;
+    			}
+    			Node<MiniMaxState> parent = graph.getNode(source).get();
+    			parent.getData().setValue(v.getData().getValue());
+    			if(v.getData().getValue()>=beta){
+    				
+    				return v;
+    			}
+    			alpha = Math.max(alpha,v.getData().getValue());
+    		}
+    		return v;
+    	}
+    	else{
+    		v = new Node<>(new MiniMaxState(null, Integer.MAX_VALUE,"")); // negative infinite
+    		for(Node eachNeighbor:graph.neighbors(source)){
+    			Node<MiniMaxState> v1 = getBestMove(graph, eachNeighbor, depth-1, alpha, beta, true);
+    			if(v1.getData().getValue()<v.getData().getValue()){
+    				v = v1;
+    			}
+    			Node<MiniMaxState> parent = graph.getNode(source).get();
+    			parent.getData().setValue(v.getData().getValue());
+    			if(v.getData().getValue()<=alpha){
+    					return v;
+    			}
+    			beta = Math.min(beta, v.getData().getValue());
+    		}
+    		return v;
+    	}
+        
+    }
 
-	        if (max) {
-	            bestValue =new Node<>(new MiniMaxState(null, Integer.MIN_VALUE,"")); // negative infinite
-	            for (Node eachNode: graph.neighbors(source)) {
-	                Node value = getBestMove(graph,eachNode, depth - 1, alpha, beta, !max);
-	                if(alpha < ((MiniMaxState)value.getData()).getValue() ){
-	       	 alpha = ((MiniMaxState)value.getData()).getValue();
-	       	if(beta < alpha){
-	       	bestValue = compareNodesMin(bestValue, value);
-	       	break;
-	       	}
-	       	 	}
-	                bestValue = compareNodesMax(bestValue, value);
-	            }
-	            if( !(((MiniMaxState) source.getData()).getMoves()).equals(((MiniMaxState) rootNode.getData()).getMoves())){
-	            bestValue = new Node(new MiniMaxState( ((MiniMaxState) source.getData()).getState() , ((MiniMaxState)bestValue.getData()).getValue(), ((MiniMaxState) source.getData()).getMoves() ));
-	            }
-	            ((MiniMaxState) graph.getNode(source).get().getData()).setValue(((MiniMaxState)bestValue.getData()).getValue());
-	            return bestValue;
-	        } else {
-	        	bestValue =new Node<>(new MiniMaxState(null, Integer.MAX_VALUE,"")); // positive infinite
-	        	 for (Node eachNode: graph.neighbors(source)) {
-	        	 Node value = getBestMove(graph,eachNode, depth - 1, alpha, beta, !max);
-	        	 if(beta > ((MiniMaxState)value.getData()).getValue() ){
-	        	 beta = ((MiniMaxState)value.getData()).getValue();
-	        	 if(beta < alpha){
-	        	 bestValue = compareNodesMin(bestValue, value);
-	        	 break;
-	        	 }
-	        	 }
-	                bestValue = compareNodesMin(bestValue, value);
-	            }
-	        	 if( !(((MiniMaxState) source.getData()).getMoves()).equals(((MiniMaxState) rootNode.getData()).getMoves())){
-	 	            bestValue = new Node(new MiniMaxState( ((MiniMaxState) source.getData()).getState() , ((MiniMaxState)bestValue.getData()).getValue(), ((MiniMaxState) source.getData()).getMoves() ));
-	 	            }
-	        	  ((MiniMaxState) graph.getNode(source).get().getData()).setValue(((MiniMaxState)bestValue.getData()).getValue());
-	            return bestValue;
-	        }
-	       
-	    }
 	
 		// TODO Auto-generated method stub
 		private static int evaluateState(Node<MiniMaxState> source) {
